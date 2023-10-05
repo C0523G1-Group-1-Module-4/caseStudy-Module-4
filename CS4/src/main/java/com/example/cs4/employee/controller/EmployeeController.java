@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,7 +28,7 @@ public class EmployeeController {
                            @RequestParam(defaultValue = "", required = false) String searchName,
                            @RequestParam(defaultValue = "5", required = false) int size,
                            Model model) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
         Page<Employee> list = iEmployeeService.showList(pageable, searchName);
         model.addAttribute("list", list);
         return "/employee/showList";
