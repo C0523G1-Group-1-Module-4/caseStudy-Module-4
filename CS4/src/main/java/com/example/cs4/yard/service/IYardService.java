@@ -1,12 +1,11 @@
 package com.example.cs4.yard.service;
 
-
-
 import com.example.cs4.yard.model.Yard;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface IYardService {
-    Yard findById(int id);
-    List<Yard> findAll();
+    Page<Yard> getYardPage(Pageable pageable ,String name);
+    void deleteYard(int id);
+    boolean createYard(Yard yard);
 }
