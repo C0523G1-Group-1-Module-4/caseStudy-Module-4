@@ -4,13 +4,15 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 public class YardDto implements Validator {
+    private int id;
     private String name;
     private String address;
     private String description;
     private double price;
     private String image;
 
-    public YardDto(String name, String address, String description, double price, String image) {
+    public YardDto(int id, String name, String address, String description, double price, String image) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.description = description;
@@ -68,6 +70,14 @@ public class YardDto implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
+        YardDto yardDto = (YardDto) target;
+    }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

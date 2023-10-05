@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class YardService implements IYardService {
@@ -37,5 +38,15 @@ public class YardService implements IYardService {
     @Override
     public Yard findById(int id) {
         return yardRepository.findById(id).get();
+    }
+
+    @Override
+    public List<Yard> findAll() {
+        return yardRepository.findAll();
+    }
+
+    @Override
+    public void updateYard(Yard yard) {
+        yardRepository.save(yard);
     }
 }

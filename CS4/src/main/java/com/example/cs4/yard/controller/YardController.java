@@ -32,6 +32,16 @@ public class YardController {
         model.addAttribute("yardPage", yardPage);
         return "/yard/showList";
     }
+    @GetMapping("/list")
+    public String showPageYardTable(@RequestParam(defaultValue = "0", required = false) int page,
+                               @RequestParam(defaultValue = "", required = false) String nameSearch,
+                               Model model) {
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<Yard> yardPage = yardService.getYardPage(pageable, nameSearch);
+        model.addAttribute("nameSearch",nameSearch);
+        model.addAttribute("yardPage", yardPage);
+        return "/yard/list";
+    }
 
     @GetMapping("/create")
     public String showFormCreateYard(Model model) {
@@ -45,23 +55,43 @@ public class YardController {
                              RedirectAttributes redirectAttributes) {
         new YardDto().validate(yardDto, bindingResult);
         if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("fail", "Thêm thất bại");
             return "/yard/create";
         }
         Yard yard = new Yard();
         BeanUtils.copyProperties(yardDto, yard);
         yardService.createYard(yard);
-        redirectAttributes.addFlashAttribute("msg", "Thêm mới thành công");
-        return "redirect:/yard";
+        return "redirect:/yards/list";
     }
 
     @PostMapping("/delete")
     public String deleteYard(@RequestParam int id) {
         yardService.deleteYard(id);
-        return "redirect:/yards";
+        return "redirect:/yards/list";
     }
-
+    @GetMapping("/update")
+    public String formUpdateYard(@RequestParam int id,
+                                 Model model){
+        model.addAttribute("yardDto",yardService.findById(id));
+        return "/yard/edit";
+    }
     @PostMapping("/update")
-    public String updateYard() {
-        return "redirect:/yards";
+    public String updateYard(@Valid @ModelAttribute YardDto yardDto,
+                             BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes) {
+        new YardDto().validate(yardDto, bindingResult);
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("fail", "Chỉnh sửa thất bại");
+            return "/yard/edit";
+        }
+        Yard yard = new Yard();
+        BeanUtils.copyProperties(yardDto, yard);
+        yardService.updateYard(yard);
+        return "redirect:/yards/list";
+    }
+    @GetMapping("/detail")
+    public String detail(@RequestParam int id, Model model){
+        model.addAttribute("yard", yardService.findById(id));
+        return "/yard/detail";
     }
 }
