@@ -26,7 +26,7 @@ public class CustomerController {
     private ICustomerService iCustomerService;
 
     @GetMapping("/")
-    public String showList(@RequestParam(defaultValue = "0", required = false) int page,
+    public String showLList(@RequestParam(defaultValue = "0", required = false) int page,
                            @RequestParam(defaultValue = "", required = false) String searchName,
                            @RequestParam(defaultValue = "5", required = false) int size,
                            Model model) {
@@ -46,8 +46,8 @@ public class CustomerController {
         return "redirect:/customers/";
     }
 
-    @GetMapping("/showEdit")
-    public String showEdit(@RequestParam int id, Model model) {
+    @GetMapping("/showFormEdit")
+    public String showFormEdit(@RequestParam int id, Model model) {
         Customer customer = iCustomerService.findById(id);
         CustomerDto customerDto = new CustomerDto();
 
@@ -83,7 +83,7 @@ public class CustomerController {
         return "redirect:/customers/";
     }
 
-    @GetMapping("/showView")
+    @GetMapping("/showViewDetail")
     public String showView(@RequestParam int id, Model model) {
         Customer customer = iCustomerService.findById(id);
         model.addAttribute("customer", customer);
