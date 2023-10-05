@@ -11,4 +11,9 @@ import org.springframework.data.repository.query.Param;
 public interface IEmployeeRepository extends JpaRepository<Employee, Integer> {
     @Query(value = "select * from employees where name like :searchName and is_deleted = 0",nativeQuery = true)
     Page<Employee> findAllByFullNameContaining(@Param("searchName") String searchName, Pageable pageable);
+    @Query(value = "select employee.* from employee \n" +
+            "join accounts on employee.account_id = accounts.account_id\n" +
+            "where accounts.username =:userName",
+            nativeQuery = true)
+    Employee findByUserName(@Param("userName") String userName);
 }
