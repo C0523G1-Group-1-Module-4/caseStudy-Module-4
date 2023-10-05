@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Trang Thêm Mới Sân Bóng</title>
+    <title>Edit Profile</title>
     <link rel="stylesheet" href="../../../static/customer/edit.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
     <style>
@@ -129,20 +129,21 @@
 </script>
 <div class="container">
     <div class="title"></div>
-    <form action="/yards/create" method="post" th:object="${yardDto}">
+    <form action="/yards/update" method="post" th:object="${yardDto}">
         <div class="user-details">
+            <input th:field="*{id}" type="hidden" name="id"  placeholder="Enter your name" >
             <div class="input-box">
                 <span class="details">Tên</span>
                 <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></div>
                 <input th:field="*{name}" type="text"  placeholder="Enter your name" required>
             </div>
             <div class="input-box">
-                <span class="details">Địa Chỉ</span>
+                <span class="details">Địa chỉ</span>
                 <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error-message"></div>
-                <input th:field="*{address}" type="date" placeholder="Enter your address" required>
+                <input th:field="*{address}" type="text" placeholder="Enter your address" required>
             </div>
             <div class="input-box">
-                <span class="details">Mô Tả</span>
+                <span class="details">Mô tả</span>
                 <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error-message"></div>
                 <input type="text" th:field="*{description}" placeholder="Enter your description" required>
             </div>
@@ -152,13 +153,13 @@
                 <input type="text" th:field="*{price}" placeholder="Enter your price" required>
             </div>
             <div class="input-box">
-                <span class="details">Địa chỉ</span>
+                <span class="details">Ảnh</span>
                 <div th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="error-message"></div>
-                <input type="file" th:field="*{image}" placeholder="Choose image" required>
+                <input type="file" th:field="*{image}" placeholder="Choose imgae" required>
             </div>
         </div>
         <div class="button">
-            <input type="submit" value="Thêm Mới">
+            <input type="submit" value="Cập nhật">
         </div>
     </form>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
