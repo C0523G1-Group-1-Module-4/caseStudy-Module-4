@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 @RequestMapping("/customers")
@@ -27,7 +30,7 @@ public class CustomerController {
                            @RequestParam(defaultValue = "", required = false) String searchName,
                            @RequestParam(defaultValue = "5", required = false) int size,
                            Model model) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size,Sort.by("id").descending());
         Page<Customer> customers = iCustomerService.showList(pageable, searchName);
 
 
@@ -47,7 +50,12 @@ public class CustomerController {
     public String showEdit(@RequestParam int id, Model model) {
         Customer customer = iCustomerService.findById(id);
         CustomerDto customerDto = new CustomerDto();
+
         BeanUtils.copyProperties(customer, customerDto);
+        String dateString = customerDto.getBirthDay();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(dateString, formatter);
+        customerDto.setBirthDay(dateString);
         model.addAttribute("customerDto", customerDto);
 //        model.addAttribute("customer", new CustomerDto());
         return "customer/edit";
@@ -66,6 +74,10 @@ public class CustomerController {
         }
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerDto,customer);
+        String dateString = customer.getBirthDay();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(dateString, formatter);
+        customer.setBirthDay(dateString);
         iCustomerService.save(customer);
         redirectAttributes.addFlashAttribute("success", "thêm thành công");
         return "redirect:/customers/";
