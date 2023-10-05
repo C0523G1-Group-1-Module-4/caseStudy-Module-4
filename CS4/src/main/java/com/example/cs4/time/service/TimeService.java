@@ -1,7 +1,8 @@
 package com.example.cs4.time.service;
 
-import com.example.demo.time.model.Time;
-import com.example.demo.time.repository.ITimeRepository;
+
+import com.example.cs4.time.model.Time;
+import com.example.cs4.time.repository.ITimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,7 @@ public class TimeService implements ITimeService {
     @Override
     public boolean delete(int id) {
         Time time = timeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Error!"));
-        time.setDelete(true);
+        time.setDeleted(true);
         timeRepository.save(time);
         return true;
     }
