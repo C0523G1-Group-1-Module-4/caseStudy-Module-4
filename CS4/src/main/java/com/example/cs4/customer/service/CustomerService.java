@@ -1,0 +1,40 @@
+package com.example.cs4.customer.service;
+
+import com.example.cs4.customer.model.Customer;
+import com.example.cs4.customer.repository.ICustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+
+@Service
+public class CustomerService implements ICustomerService {
+    @Autowired
+    private ICustomerRepository iCustomerRepository;
+
+
+    @Override
+    public void delete(int id) {
+        Customer customer = findById(id);
+        customer.setDeleted(true);
+        iCustomerRepository.save(customer);
+    }
+
+    @Override
+    public Customer findById(int id) {
+        Customer customer = iCustomerRepository.findById(id).get();
+        return customer;
+    }
+
+    @Override
+    public void save(Customer customer) {
+        iCustomerRepository.save(customer);
+    }
+
+    @Override
+    public Page<Customer> showList(Pageable pageable, String searchName) {
+        Page<Customer> page = iCustomerRepository.findAllByFullNameContaining("%" + searchName + "%", pageable);
+        return page;
+    }
+}
