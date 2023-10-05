@@ -8,4 +8,5 @@ public interface IYardService {
     Page<Yard> getYardPage(Pageable pageable ,String name);
     void deleteYard(int id);
     boolean createYard(Yard yard);
+    Yard findById(int id);
 }

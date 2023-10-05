@@ -33,4 +33,9 @@ public class YardService implements IYardService {
         Yard yardEntity = yardRepository.save(yard);
         return yardEntity != null;
     }
+
+    @Override
+    public Yard findById(int id) {
+        return yardRepository.findById(id).get();
+    }
 }
