@@ -14,12 +14,12 @@ public interface IBookingRepository extends JpaRepository<Booking, Integer> {
 //    @Query(value = "select * from booking where is_delete = 0",
 //            nativeQuery = true)
 //    Page<Booking> findAllByDeleteIs(Pageable pageable, String phoneNumber);
-    @Query(value = "SELECT booking.id,booking.booking_date,booking.deposit,booking.is_deleted,booking.customer_id,booking.employee_id,booking.time_id,booking.yard_id FROM booking " +
-            "JOIN customer ON booking.customer_id = customer.id " +
-            "WHERE customer.phone_number LIKE :phoneNumber  order by booking.booking_date",
+    @Query(value = "SELECT bookings.id,bookings.booking_date,bookings.deposit,bookings.is_deleted,bookings.customer_id,bookings.employee_id,bookings.time_id,bookings.yard_id FROM bookings " +
+            "JOIN customers ON bookings.customer_id = customers.id " +
+            "WHERE customers.phone_number LIKE :phoneNumber  order by bookings.booking_date",
             nativeQuery = true)
     Page<Booking> findAllByPhone(Pageable pageable,@Param("phoneNumber") String phoneNumber);
-    @Query(value = "select * from booking where is_deleted = 0",
+    @Query(value = "select * from bookings where is_deleted = 0",
             nativeQuery = true)
     List<Booking> findAllBooking();
 

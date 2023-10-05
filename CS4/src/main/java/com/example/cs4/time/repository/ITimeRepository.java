@@ -12,10 +12,10 @@ import java.util.List;
 public interface ITimeRepository extends JpaRepository<Time,Integer> {
 //    Page<Time> findAllByDeleteIs(Pageable pageable, boolean isDelete);
 
-    @Query(value = "select * from time where is_delete = 0 order by time",
+    @Query(value = "select * from times where is_deleted = 0 order by time",
             nativeQuery = true)
     Page<Time> findAllByDeleteIs(Pageable pageable);
-    @Query(value = "select * from time where is_delete = 0",
+    @Query(value = "select * from times where is_deleted = 0",
             nativeQuery = true)
     List<Time> getAll();
 }
