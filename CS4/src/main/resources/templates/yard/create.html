@@ -111,17 +111,18 @@
 
 </head>
 <body>
-<div th:if="${fail}">
-    <span th:text="${fail}" id="fail" style="display: none"></span>
+<!--thông báo thêm thành công-->
+<div th:if="${message}">
+    <span th:text="${message}" id="success" style="display: none"></span>
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        let fail = document.getElementById("fail").innerText;
+        let fail = document.getElementById("success").innerText;
         console.log(fail)
         Swal.fire({
             title: fail,
-            icon: 'fail',
-            timer: 1500,
+            icon: 'success',
+            timer: 3000,
             timerProgressBar: true,
             showConfirmButton: false
         });
@@ -139,7 +140,7 @@
             <div class="input-box">
                 <span class="details">Địa Chỉ</span>
                 <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error-message"></div>
-                <input th:field="*{address}" type="date" placeholder="Enter your address" required>
+                <input th:field="*{address}" type="text" placeholder="Enter your address" required>
             </div>
             <div class="input-box">
                 <span class="details">Mô Tả</span>
@@ -153,9 +154,21 @@
             </div>
             <div class="input-box">
                 <span class="details">Địa chỉ</span>
-                <div th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="error-message"></div>
-                <input type="file" th:field="*{image}" placeholder="Choose image" required>
+<!--                <div th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="error-message"></div>-->
+<!--                <input type="file" th:field="*{image}" placeholder="Choose image" required>-->
+                <div id="image-preview-container2" class="card" style="width: 18rem ">
+                    <img style="margin: 2%; width: 17rem ; height: 20rem"  th:src="*{image}"
+                         alt="Avatar's customer">
+                    <input type="hidden" th:value="*{image}">
+                </div>
+                <div>
+                    <input type="file" id="upload-file" multiple accept=".jpg, .jpeg, .png"
+                           onchange="limitFiles(this,1)">
+                    <input name="image2" type="hidden" id="image2" th:field="*{image}"
+                           required>
+                </div>
             </div>
+
         </div>
         <div class="button">
             <input type="submit" value="Thêm Mới">
@@ -165,6 +178,38 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous">
     </script>
+    <script>
+        function limitFiles(input, maxFiles) {
+            if (input.files.length > maxFiles) {
+                alert(`Chỉ được chọn đúng ${maxFiles} tệp.`);
+                input.value = ""; // Xóa tệp đã chọn nếu vượt quá giới hạn
+            }
+        }
+        document.getElementById("upload-file").addEventListener("change", function (e) {
+            const container = document.getElementById("image-preview-container2");
+            container.innerHTML = "";
+            const maxFiles = 1;
+            const files = e.target.files;
+            if (files.length !== maxFiles) {
+                alert(`Bạn phải chọn đúng ${maxFiles} tệp.`);
+                e.target.value = "";
+                return;
+            }
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const img = document.createElement("img");
+                img.src = URL.createObjectURL(file);
+                img.style.width = "10rem"
+                img.style.height = "10rem"
+                img.style.margin = "7px";
+                container.appendChild(img);
+            }
+        });
+    </script>
+    <script type="module" src="/js/upload-lam.js"></script>
+    <script type="module" src="/js/configulation.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
 </div>
 </body>
 </html>

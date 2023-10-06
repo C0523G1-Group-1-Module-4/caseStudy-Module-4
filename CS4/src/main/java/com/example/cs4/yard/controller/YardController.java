@@ -34,8 +34,8 @@ public class YardController {
     }
     @GetMapping("/list")
     public String showPageYardTable(@RequestParam(defaultValue = "0", required = false) int page,
-                               @RequestParam(defaultValue = "", required = false) String nameSearch,
-                               Model model) {
+                                    @RequestParam(defaultValue = "", required = false) String nameSearch,
+                                    Model model) {
         Pageable pageable = PageRequest.of(page, 5);
         Page<Yard> yardPage = yardService.getYardPage(pageable, nameSearch);
         model.addAttribute("nameSearch",nameSearch);
@@ -61,6 +61,7 @@ public class YardController {
         Yard yard = new Yard();
         BeanUtils.copyProperties(yardDto, yard);
         yardService.createYard(yard);
+        redirectAttributes.addFlashAttribute("message", "Bạn đã thêm sân thành công! ");
         return "redirect:/yards/list";
     }
 

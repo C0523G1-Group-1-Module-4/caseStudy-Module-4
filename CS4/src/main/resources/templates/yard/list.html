@@ -97,8 +97,8 @@
   </style>
 </head>
 <body>
-<div th:if="${success}">
-  <span th:text="${success}" id="success" style="display: none"></span>
+<div th:if="${message}">
+  <span th:text="${message}" id="success" style="display: none"></span>
 </div>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -122,6 +122,7 @@
     </form>
   </section>
   <section class="table__body">
+    <a th:href="@{/yards/create}"> <button class="btn btn-primary mb-2">Thêm mới sân bóng</button></a>
     <table style="height: 20rem">
       <thead>
       <tr>
